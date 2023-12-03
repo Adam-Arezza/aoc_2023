@@ -17,9 +17,8 @@ const fs = require('fs')
 let inputs = fs.readFileSync('inputs/day_2.txt').toString().split("\n")
 
 let ids = []
-
+let game_powers = []
 inputs.forEach(line => {
-    console.log(line)
     if(!line) {
         return
     }
@@ -35,7 +34,6 @@ inputs.forEach(line => {
 
     for(let i = 0; i < games.length; i++){
         let game = games[i].split(",")
-        console.log(`game: ${game}`)
         for(g in game) {
             if(game[g].match("blue")){
                 let count = game[g].replace(/[^0-9]/g, "")
@@ -58,6 +56,8 @@ inputs.forEach(line => {
         }
     }
 
+    let game_power = blue_count * red_count * green_count
+    game_powers.push(game_power)
     if(red_count > RED || blue_count > BLUE || green_count > GREEN){
         return
     }
@@ -67,11 +67,20 @@ inputs.forEach(line => {
 })
 
 console.log(ids)
+console.log(game_powers)
 
-let sum = 0
+let id_sum = 0
 
 for(let n = 0; n < ids.length; n++) {
-    sum += Number(ids[n])
+    id_sum += Number(ids[n])
 }
 
-console.log(sum)
+console.log(id_sum)
+
+let power_sum = 0
+
+for(let p = 0; p < game_powers.length; p++){
+    power_sum += game_powers[p]
+}
+
+console.log(power_sum)
