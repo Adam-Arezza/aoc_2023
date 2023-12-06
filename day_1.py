@@ -1,5 +1,5 @@
 #PART 1
-with open('.\inputs\day_1.txt', 'r') as inputs:
+with open('inputs/day_1.txt', 'r') as inputs:
     inputs = inputs.readlines()
  
 #test_strings = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]
