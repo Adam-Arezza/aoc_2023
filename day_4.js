@@ -19,18 +19,13 @@ for(let i = 0 ; i < inputs.length - 1; i++){
     inputs[i][1] = inputs[i][1].replaceAll(" ", ",").split(",")
 }
 
-console.log(inputs[0])
-
 let total = 0
 for(let i = 0; i < inputs.length-1; i++){
     let points = 0
     let winning_numbers = inputs[i][0]
     let player_numbers = inputs[i][1]
-    //console.log(player_numbers)
-    //console.log(winning_numbers)
     for(let n = 0; n < player_numbers.length; n++){
         if(winning_numbers.includes(player_numbers[n]) && player_numbers[n] !== ""){
-            //console.log(`Found number: ${player_numbers[n]} in ${winning_numbers}`)
             if(points === 0){
                 points++
             }
@@ -39,7 +34,6 @@ for(let i = 0; i < inputs.length-1; i++){
             }
         }
     } 
-    //console.log(`game ${i+1}: ${points}`)
     total = total + points
 }
 
@@ -47,5 +41,41 @@ for(let i = 0; i < inputs.length-1; i++){
 console.log(total)
 
 
-
 //PART 2
+
+for(let i = 0 ; i < example.length - 1; i++){
+example[i] = example[i].split("|")
+example[i][0] = example[i][0].split(":")[1]
+example[i][0] = example[i][0].replaceAll(" ", ",").split(",")
+example[i][1] = example[i][1].replaceAll(" ", ",").split(",")
+}
+
+let cards = {}
+
+for(let i = 0; i < inputs.length; i++){
+    cards[i] = 1
+}
+
+let total_cards = 0
+for(let i = 0; i < inputs.length; i++){
+    let matches = 0
+    let winning_numbers = inputs[i][0]
+    let player_numbers = inputs[i][1]
+    for(let n = 0; n < player_numbers.length; n++){
+        if(winning_numbers.includes(player_numbers[n]) && player_numbers[n] !== ""){
+            matches++
+        }
+    }
+    for(let c = 0; c < cards[i]; c++){
+        for(let m = 1; m < matches+1; m++){
+            cards[i + m] = cards[i + m] + 1
+        }
+    }
+}
+
+for(let k = 0; k < Object.keys(cards).length;k++){ 
+    total_cards = total_cards + cards[k]
+}
+
+console.log(`Total cards: ${total_cards}`)
+
