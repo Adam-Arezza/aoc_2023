@@ -6,6 +6,7 @@
 # therefore, seed 55 would map to soil 57
 # goal is to traverse through the map(s) to get to location#
 # then pick the lowest location number
+import math
 
 def parse_maps(maps):
     seeds = []
@@ -45,19 +46,11 @@ def parse_maps(maps):
 
 def get_seed_location(seed,map):
     src = seed
-    maps = []
     for i in map:
-        #print(src)
-        #print(i)
         for m in map[i]:
-            #print(m)
             if src >= m["source_start"] and src <= m["source_start"] + m["range"]-1:
-                #print(f'Found {src} in {range(m["source_start"],m["source_start"]+ m["range"]-1)}')
-                #print(f'Destination is {src} - {m["source_start"]} + {m["destination_start"]}')
                 src = m["destination_start"] + src - m["source_start"] 
-                maps.append(src)
                 break
-    #print(f'Seed: {seed}, maps: {maps}')
     return src
 
 
@@ -68,36 +61,19 @@ with open("inputs/day_5.txt","r") as inputs:
     inputs = inputs.readlines()
 
 mappings, seeds = parse_maps(example)
-#print(seeds)
-#print(mappings["soil_to_fertilizer"])
 
-final_locations = []
-for i in range(len(seeds)):
-    final_locations.append((seeds[i], get_seed_location(seeds[i],mappings)))
-print(final_locations)
+#final_locations = []
+#for i in range(len(seeds)):
+#    final_locations.append((seeds[i], get_seed_location(seeds[i],mappings)))
 
-mappers, initial_seeds = parse_maps(inputs)
-seed_locations = []
-for i in range(len(seeds)):
-    #every second number is a range
-    #so create a range of seeds based on the previous number as the start and the range
-    #loop through all of the seeds and get each of their locations
-    if i % 2 == 0 and i > 0:
-        continue
-    else:
-        try:
-            seed_range = range(seeds[i], seeds[i] + seeds[i+1])
-            for seed 
-        except Exception as e:
-            print(e)
-        #for seed in seed_range:
-        #    seed_locations.append(seed, get_seed_location(seed, mappings))
-    #seed_locations.append((initial_seeds[i], get_seed_location(initial_seeds[i],mappers)))
-print(seed_locations)
-
-#lowest_location_number = seed_locations[0][1]
-#for seed,location in seed_locations:
-#    if location < lowest_location_number:
-#        lowest_location_number = location
-#    print(f'initial seed: {seed} location: {location}')
-#print(lowest_location_number)
+lowest = math.inf
+for i in range(0,len(seeds),2):
+    try:
+        seed_range = range(seeds[i], seeds[i+1] + seeds[i])
+        for seed in seed_range:
+            location = get_seed_location(seed,mappings)
+            if location < lowest:
+                lowest = location
+    except Exception as e:
+        print(e)
+print(lowest)
